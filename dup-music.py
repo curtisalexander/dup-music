@@ -8,16 +8,20 @@ root_dir = os.path.join(os.path.expanduser('~'),
 
 patt = re.compile(r'\s\d\.')
 
+first_run = True
+
 for _dir, _, _flist in os.walk(root_dir):
     if _flist:
-        has_run = False
+        run_in_dir = False
         for fname in _flist:
             result = patt.search(fname)
-            if result != None:
-                if not has_run:
-                    print()
+            if result:
+                if not run_in_dir:
+                    if not first_run:
+                        print()
                     print(_dir)
                     print('*'*len(_dir))
                     print()
                 print(f'File: {fname}')
-        has_run = True
+            first_run = False
+        run_in_dir = True
